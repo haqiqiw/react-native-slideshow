@@ -86,6 +86,7 @@ export default class SlideshowTest extends Component {
 | --- | :---: | :---: | :---: | --- |
 | `dataSource` | bool | required | - | slideshow data |
 | `height` | number | optional | 200 | container height |
+| `width` | number | optional | - | window width |
 | `position` | number | optional | - | set position slideshow |
 | `scrollEnabled` | bool | optional | true | enable / disable scrolling |
 | `overlay` | bool | optional | false | background overlay |

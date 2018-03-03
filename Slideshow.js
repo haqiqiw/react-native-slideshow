@@ -42,8 +42,7 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   containerImage : {
-    flex: 1,
-    width: Dimensions.get('window').width,
+    flex: 1
   },
   overlay: {
     opacity: 0.5,
@@ -79,9 +78,14 @@ export default class Slideshow extends Component {
     this.state = {
       position: 0,
       height: Dimensions.get('window').width * (4 / 9),
-      width: Dimensions.get('window').width,
+      width: props.width || Dimensions.get('window').width,
       scrolling: false,
     };
+  }
+
+  containerImageStyle() {
+    const style = styles.containerImage
+    style.width = this.props.width || Dimensions.get('window').width
   }
 
   _onRef(ref) {
@@ -131,7 +135,7 @@ export default class Slideshow extends Component {
   }
 
   componentWillMount() {
-    const width = this.state.width;
+    const width = this.props.width || this.state.width;
 
     let release = (e, gestureState) => {
       const width = this.state.width;
@@ -157,13 +161,14 @@ export default class Slideshow extends Component {
     this._panResponder = PanResponder.create({
       onPanResponderRelease: release
     });
-
-    this._interval = setInterval(() => {
-      const newWidth = Dimensions.get('window').width;
-      if (newWidth !== this.state.width) {
-        this.setState({width: newWidth});
-      }
-    }, 16);
+    if (!this.props.width) {
+      this._interval = setInterval(() => {
+        const newWidth = Dimensions.get('window').width;
+        if (newWidth !== this.state.width) {
+          this.setState({width: newWidth});
+        }
+      }, 16);
+    }
   }
 
   componentWillUnmount() {
@@ -171,7 +176,7 @@ export default class Slideshow extends Component {
   }
 
   render() {
-    const width = this.state.width;
+    const width = this.props.width || this.state.width;
     const height = this.props.height || this.state.height;
     const position = this._getPosition();
     return (
@@ -208,7 +213,7 @@ export default class Slideshow extends Component {
               </View>
             );
             const imageComponentWithOverlay = (
-              <View key={index} style={styles.containerImage}>
+              <View key={index} style={this.containerImageStyle()}>
                 <View style={styles.overlay}>
                   <Image
                     source={imageObject}
@@ -327,6 +332,7 @@ Slideshow.propTypes = {
 	indicatorSelectedColor: PropTypes.string,
 	height: PropTypes.number,
 	position: PropTypes.number,
+  width: PropTypes.number,
   scrollEnabled: PropTypes.bool,
   containerStyle: PropTypes.object,
   overlay: PropTypes.bool,
