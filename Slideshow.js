@@ -366,7 +366,7 @@ const iconArrow = function (iconHeight) {
   return {
      width: 0,
      height: 0,
-     margin: 5,
+     margin: 0,
      backgroundColor: 'transparent',
      borderStyle: 'solid',
      borderTopColor: 'transparent',
