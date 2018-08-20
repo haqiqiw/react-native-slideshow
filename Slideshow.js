@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   Image,
   Text,
@@ -11,29 +11,29 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Dimensions,
-} from 'react-native';
+} from "react-native";
 
-const reactNativePackage = require('react-native/package.json');
-const splitVersion = reactNativePackage.version.split('.');
+const reactNativePackage = require("react-native/package.json");
+const splitVersion = reactNativePackage.version.split(".");
 const majorVersion = +splitVersion[0];
 const minorVersion = +splitVersion[1];
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: '#F6F8FA',
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: "#F6F8FA",
   },
   layoutIndicator: {
     height: 15,
-    position: 'absolute',
+    position: "absolute",
     bottom: 5,
     left: 0,
     right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: "transparent",
   },
   indicator: {
     margin: 3,
@@ -44,32 +44,32 @@ const styles = StyleSheet.create({
   },
   containerImage: {
     flex: 1,
-    width: Dimensions.get('window').width,
+    width: Dimensions.get("window").width,
   },
   overlay: {
     opacity: 0.5,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   layoutText: {
-    position: 'absolute',
+    position: "absolute",
     paddingHorizontal: 15,
     bottom: 30,
     left: 0,
     right: 0,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    backgroundColor: "transparent",
   },
   textTitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 15,
-    color: 'white',
+    color: "white",
   },
   textCaption: {
-    fontWeight: '400',
+    fontWeight: "400",
     fontSize: 12,
-    color: 'white',
+    color: "white",
   },
 });
 
@@ -79,8 +79,8 @@ export default class Slideshow extends Component {
 
     this.state = {
       position: 0,
-      height: Dimensions.get('window').width * (4 / 9),
-      width: Dimensions.get('window').width,
+      height: Dimensions.get("window").width * (4 / 9),
+      width: Dimensions.get("window").width,
       scrolling: false,
     };
   }
@@ -107,7 +107,7 @@ export default class Slideshow extends Component {
   }
 
   _getPosition() {
-    if (typeof this.props.position === 'number') {
+    if (typeof this.props.position === "number") {
       return this.props.position;
     }
     return this.state.position;
@@ -169,7 +169,7 @@ export default class Slideshow extends Component {
     });
 
     this._interval = setInterval(() => {
-      const newWidth = Dimensions.get('window').width;
+      const newWidth = Dimensions.get("window").width;
       if (newWidth !== this.state.width) {
         this.setState({ width: newWidth });
       }
@@ -197,7 +197,7 @@ export default class Slideshow extends Component {
             {...this._panResponder.panHandlers}>
             {this.props.dataSource.map((image, index) => {
               const imageObject =
-                typeof image.url === 'string' ? { uri: image.url } : image.url;
+                typeof image.url === "string" ? { uri: image.url } : image.url;
               const textComponent = (
                 <View style={styles.layoutText}>
                   {image.title === undefined ? null : (
@@ -217,10 +217,10 @@ export default class Slideshow extends Component {
                   <Image
                     source={imageObject}
                     style={{
-                      backgroundColor: '#F6F8FA',
+                      backgroundColor: "#F6F8FA",
                       aspectRatio: 16 / 9,
                       flex: 1,
-                      resizeMode: 'contain',
+                      resizeMode: "contain",
                     }}
                   />
                   {textComponent}
@@ -329,8 +329,8 @@ export default class Slideshow extends Component {
 Slideshow.defaultProps = {
   height: 200,
   indicatorSize: 8,
-  indicatorColor: '#CCCCCC',
-  indicatorSelectedColor: '#FFFFFF',
+  indicatorColor: "#CCCCCC",
+  indicatorSelectedColor: "#FFFFFF",
   scrollEnabled: true,
   arrowSize: 16,
 };
@@ -341,7 +341,7 @@ Slideshow.propTypes = {
       title: PropTypes.string,
       caption: PropTypes.string,
       url: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    }),
+    })
   ).isRequired,
   indicatorSize: PropTypes.number,
   indicatorColor: PropTypes.string,
@@ -353,4 +353,64 @@ Slideshow.propTypes = {
   overlay: PropTypes.bool,
   arrowSize: PropTypes.number,
   arrowLeft: PropTypes.object,
-  arrowRight: PropTypes.obj
+  arrowRight: PropTypes.object,
+  onPress: PropTypes.func,
+  onPositionChanged: PropTypes.func,
+};
+
+const setIndicatorSize = function(size) {
+  return {
+    width: size,
+    height: size,
+    borderRadius: size / 2,
+  };
+};
+
+const setIndicatorColor = function(color) {
+  return {
+    backgroundColor: color,
+  };
+};
+
+const layoutArrow = function(imageHeight, iconHeight) {
+  return {
+    position: "absolute",
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    top: (imageHeight - iconHeight) / 2,
+    bottom: (imageHeight - iconHeight) / 2,
+  };
+};
+
+const iconArrow = function(iconHeight) {
+  return {
+    width: 0,
+    height: 0,
+    margin: 5,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent",
+    borderTopWidth: iconHeight / 2,
+    borderBottomWidth: iconHeight / 2,
+  };
+};
+
+const iconArrowRight = function(iconHeight) {
+  return {
+    borderRightWidth: 0,
+    borderLeftWidth: iconHeight * 75 / 100,
+    borderRightColor: "transparent",
+    borderLeftColor: "#555",
+  };
+};
+
+const iconArrowLeft = function(iconHeight) {
+  return {
+    borderRightWidth: iconHeight * 75 / 100,
+    borderLeftWidth: 0,
+    borderRightColor: "#555",
+    borderLeftColor: "transparent",
+  };
+};
