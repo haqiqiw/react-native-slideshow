@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {
   Image,
   Text,
@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-
+import PropTypes from 'prop-types';
 const reactNativePackage = require('react-native/package.json');
 const splitVersion = reactNativePackage.version.split('.');
 const majorVersion = +splitVersion[0];
