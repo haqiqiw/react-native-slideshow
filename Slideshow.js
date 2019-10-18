@@ -203,7 +203,7 @@ export default class Slideshow extends Component {
               <View key={index}>
                 <Image
                   source={imageObject}
-                  style={{height, width}}/>
+                  style={{height, width, resizeMode: this.props.resizeMode}}/>
                 {textComponent}
               </View>
             );
@@ -212,7 +212,7 @@ export default class Slideshow extends Component {
                 <View style={styles.overlay}>
                   <Image
                     source={imageObject}
-                    style={{height, width}}/>
+                    style={{height, width, resizeMode: this.props.resizeMode}}/>
                 </View>
                 {textComponent}
               </View>
@@ -314,6 +314,7 @@ Slideshow.defaultProps = {
   indicatorSelectedColor: '#FFFFFF',
   scrollEnabled: true,
   arrowSize: 16,
+  resizeMode: 'cover',
 }
 
 Slideshow.propTypes = {
@@ -334,7 +335,8 @@ Slideshow.propTypes = {
   arrowLeft: PropTypes.object,
   arrowRight: PropTypes.object,
 	onPress: PropTypes.func,
-	onPositionChanged: PropTypes.func,
+  onPositionChanged: PropTypes.func,
+  resizeMode: PropTypes.string,
 };
 
 const setIndicatorSize = function (size) {
